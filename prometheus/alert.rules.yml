@@ -28,12 +28,4 @@
        description: 'Disk space low on {{ $labels.instance }} mount {{ $labels.mountpoint }}'
        summary: 'Disk usage > 80%'
 
-   - alert: ExcessiveLoginFailures
-     expr: increase(syslog_login_failed_total[5m]) > 5
-     for: 5m
-     labels:
-       severity: warning
-     annotations:
-       description: 'Multiple failed login attempts detected.'
-       summary: 'Failed logins > 5 in 5m'
 

@@ -26,7 +26,7 @@ services:
       - lognet
 
   prometheus:
-    image: prom/prometheus:latest
+    image: prom/prometheus:v2.48.0
     container_name: prometheus
     ports:
       - "9090:9090"
@@ -40,7 +40,7 @@ services:
       - lognet
 
   node-exporter:
-    image: prom/node-exporter:latest
+    image: prom/node-exporter:v1.7.0
     container_name: node-exporter
     pid: host
     ports:
@@ -57,7 +57,7 @@ services:
       - lognet
     
   cadvisor:
-    image: gcr.io/cadvisor/cadvisor:latest
+    image: gcr.io/cadvisor/cadvisor:v0.47.2
     container_name: cadvisor
     ports:
       - "8080:8080"
@@ -74,7 +74,7 @@ services:
       prometheus.io/port: '8080'
 
   grafana:
-    image: grafana/grafana:latest
+    image: grafana/grafana:10.2.3
     container_name: grafana
     ports:
       - "3000:3000"
@@ -93,7 +93,7 @@ services:
       - lognet
 
   alertmanager:
-    image: prom/alertmanager:latest
+    image: prom/alertmanager:v0.26.0
     container_name: alertmanager
     ports:
       - "9093:9093"

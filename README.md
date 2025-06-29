@@ -11,6 +11,17 @@ This stack provides log aggregation, metrics monitoring and alerting using Docke
 - **Alertmanager** – handles alerts from Prometheus
 - **Grafana** – dashboards for logs and metrics
 
+### Image Versions
+The `docker-compose.yml` file pins each service to a specific version:
+
+- `grafana/loki:2.9.0`
+- `balabit/syslog-ng:4.2.0`
+- `prom/prometheus:v2.46.0`
+- `prom/node-exporter:v1.7.0`
+- `gcr.io/cadvisor/cadvisor:v0.47.2`
+- `grafana/grafana:10.0.3`
+- `prom/alertmanager:v0.26.0`
+
 ## Usage
 1. Ensure Docker and Docker Compose are installed on the host.
 2. Clone this repository on the host machine with access to `/var/log`.

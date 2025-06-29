@@ -7,7 +7,7 @@ services:
       - "3100:3100"
     command: -config.file=/etc/loki/local-config.yaml
     volumes:
-      - loki-data:/loki
+      - loki_data:/loki
     networks:
       - lognet
 
@@ -16,7 +16,7 @@ services:
     container_name: syslog-ng
     ports:
       - "514:514/udp"
-      - "601:601/tcp"
+      - "514:514/tcp"
     volumes:
       - ./syslog-ng/syslog-ng.conf:/etc/syslog-ng/syslog-ng.conf:ro
       - /var/log:/var/log:ro
@@ -33,7 +33,7 @@ services:
     volumes:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
       - ./prometheus/alert.rules.yml:/etc/prometheus/alert.rules.yml:ro
-      - prometheus-data:/prometheus
+      - prometheus_data:/prometheus
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
     networks:
@@ -83,7 +83,7 @@ services:
       - GF_SECURITY_ADMIN_PASSWORD=admin
       - GF_PATHS_PROVISIONING=/etc/grafana/provisioning
     volumes:
-      - grafana-data:/var/lib/grafana
+      - grafana_data:/var/lib/grafana
       - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources:ro
       - ./grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards:ro
     depends_on:
@@ -100,13 +100,13 @@ services:
     networks:
       - lognet
     volumes:
-      - alertmanager-data:/data
+      - alertmanager_data:/data
 
 volumes:
-  prometheus-data:
-  grafana-data:
-  alertmanager-data:
-  loki-data:
+  prometheus_data:
+  grafana_data:
+  alertmanager_data:
+  loki_data:
 
 networks:
   lognet:

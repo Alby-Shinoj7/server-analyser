@@ -1,0 +1,28 @@
+{
+  "id": null,
+  "uid": "ssh-logins",
+  "title": "SSH Login Events",
+  "schemaVersion": 30,
+  "version": 1,
+  "refresh": "5s",
+  "panels": [
+    {
+      "type": "table",
+      "title": "Failed Logins",
+      "datasource": "Loki",
+      "targets": [
+        {"expr": "{program='sshd'} |= 'Failed password'", "format": "table"}
+      ],
+      "gridPos": {"x": 0, "y": 0, "w": 24, "h": 8}
+    },
+    {
+      "type": "table",
+      "title": "Successful Logins",
+      "datasource": "Loki",
+      "targets": [
+        {"expr": "{program='sshd'} |= 'Accepted password'", "format": "table"}
+      ],
+      "gridPos": {"x": 0, "y": 8, "w": 24, "h": 8}
+    }
+  ]
+}

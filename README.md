@@ -25,9 +25,11 @@ The `docker-compose.yml` file pins each service to a specific version:
 - `nginx:1.25-alpine`
 
 ## Usage
-1. Ensure Docker and Docker Compose are installed on the host.
+1. Ensure Docker and Docker Compose **v2** are installed on the host.
+   Compose v2 is included with recent Docker installations. If `docker compose` is
+   not available, install the compose plugin or upgrade Docker.
 2. Clone this repository on the host machine with access to `/var/log`.
-3. Run `docker-compose up -d` from the repository root.
+3. Run `docker compose up -d` from the repository root.
 4. After obtaining certificates, visit Grafana at `https://your.domain.com` (default credentials `admin/admin`).
 5. Prometheus is available at [http://localhost:9090](http://localhost:9090).
 6. Alertmanager runs on the internal `lognet` network. If you need to reach it remotely, publish port **9093** and allow it through your firewall.
@@ -39,7 +41,7 @@ The `docker-compose.yml` file pins each service to a specific version:
 
 ## Adding Alert Rules
 - Edit `prometheus/alert.rules.yml` and add new rules under the `system-alerts` group.
-- Reload Prometheus configuration by restarting the Prometheus container: `docker-compose restart prometheus`.
+- Reload Prometheus configuration by restarting the Prometheus container: `docker compose restart prometheus`.
 
 ## Log Rotation & Retention
 Loki stores data on the `loki_data` volume. Adjust retention or set up periodic cleanup as required.
@@ -58,11 +60,11 @@ ports in your firewall rules.
 - Alternatively mount additional log files inside the syslog-ng container by editing `docker-compose.yml`.
 
 ### Customising Alert Rules
-- Edit `prometheus/alert.rules.yml` and restart Prometheus with `docker-compose restart prometheus`.
+- Edit `prometheus/alert.rules.yml` and restart Prometheus with `docker compose restart prometheus`.
 
 ### Configuring Alert Receivers
 - Edit `alertmanager/alertmanager.yml` to add your email or Slack details under the `default` receiver.
-- Restart Alertmanager with `docker-compose restart alertmanager` for changes to take effect.
+- Restart Alertmanager with `docker compose restart alertmanager` for changes to take effect.
 
 ### Viewing Real-Time Logs
 - Open Grafana and navigate to **Explore**.

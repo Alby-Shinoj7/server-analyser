@@ -100,6 +100,7 @@ services:
     networks:
       - lognet
     volumes:
+      - ./alertmanager/alertmanager.yml:/etc/alertmanager/alertmanager.yml:ro
       - alertmanager_data:/data
 
 volumes:

@@ -44,6 +44,10 @@ All services communicate on the `lognet` network defined in `docker-compose.yml`
 ### Customising Alert Rules
 - Edit `prometheus/alert.rules.yml` and restart Prometheus with `docker-compose restart prometheus`.
 
+### Configuring Alert Receivers
+- Edit `alertmanager/alertmanager.yml` to add your email or Slack details under the `default` receiver.
+- Restart Alertmanager with `docker-compose restart alertmanager` for changes to take effect.
+
 ### Viewing Real-Time Logs
 - Open Grafana and navigate to **Explore**.
 - Choose the **Loki** data source and run queries such as `{program="sshd"}` to drill down into login activity.

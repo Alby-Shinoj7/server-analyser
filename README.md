@@ -10,6 +10,7 @@ This stack provides log aggregation, metrics monitoring and alerting using Docke
 - **cAdvisor** – collects container metrics
 - **Alertmanager** – handles alerts from Prometheus
 - **Grafana** – dashboards for logs and metrics
+- **Nginx** – HTTPS reverse proxy for Grafana and Prometheus
 
 ### Image Versions
 The `docker-compose.yml` file pins each service to a specific version:
@@ -21,12 +22,13 @@ The `docker-compose.yml` file pins each service to a specific version:
 - `gcr.io/cadvisor/cadvisor:v0.47.2`
 - `grafana/grafana:10.0.3`
 - `prom/alertmanager:v0.26.0`
+- `nginx:1.25-alpine`
 
 ## Usage
 1. Ensure Docker and Docker Compose are installed on the host.
 2. Clone this repository on the host machine with access to `/var/log`.
 3. Run `docker-compose up -d` from the repository root.
-4. Visit Grafana at [http://localhost:3000](http://localhost:3000) (default credentials `admin/admin`).
+4. After obtaining certificates, visit Grafana at `https://your.domain.com` (default credentials `admin/admin`).
 5. Prometheus is available at [http://localhost:9090](http://localhost:9090).
 6. Alertmanager runs on the internal `lognet` network. If you need to reach it remotely, publish port **9093** and allow it through your firewall.
 7. Logs from `/var/log` and remote hosts are collected automatically. View them in Grafana under *Explore* using the `Loki` datasource to see real-time events.
@@ -52,6 +54,7 @@ ports in your firewall rules.
 
 ### Adding a New Log Source
 - Send logs via TCP or UDP port **514** to the host running syslog-ng.
+- For encrypted transport, send logs via TCP port **6514** using TLS.
 - Alternatively mount additional log files inside the syslog-ng container by editing `docker-compose.yml`.
 
 ### Customising Alert Rules
@@ -64,3 +67,12 @@ ports in your firewall rules.
 ### Viewing Real-Time Logs
 - Open Grafana and navigate to **Explore**.
 - Choose the **Loki** data source and run queries such as `{program="sshd"}` to drill down into login activity.
+
+## HTTPS Reverse Proxy
+An Nginx container terminates TLS and proxies requests to Grafana and Prometheus.
+
+### Obtaining Certificates
+1. Install **certbot** on the host machine.
+2. Run `sudo certbot certonly --standalone -d your.domain.com` and follow the prompts.
+3. Copy `fullchain.pem` to `certs/nginx/server.crt` and `privkey.pem` to `certs/nginx/server.key`.
+4. Place the same certificate (or another issued one) in `certs/syslog-ng/` as `server.crt` and `server.key` for TLS syslog on port **6514**.

@@ -1,0 +1,19 @@
+{
+  "id": null,
+  "uid": "logs-by-service",
+  "title": "Logs by Service",
+  "schemaVersion": 30,
+  "version": 1,
+  "refresh": "10s",
+  "panels": [
+    {
+      "type": "graph",
+      "title": "Top Services",
+      "datasource": "Loki",
+      "targets": [
+        {"expr": "sum by(program)(rate({program!=""}[1m]))", "legendFormat": "{{program}}"}
+      ],
+      "gridPos": {"x": 0, "y": 0, "w": 24, "h": 8}
+    }
+  ]
+}

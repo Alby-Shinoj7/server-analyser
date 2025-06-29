@@ -28,7 +28,7 @@ The `docker-compose.yml` file pins each service to a specific version:
 3. Run `docker-compose up -d` from the repository root.
 4. Visit Grafana at [http://localhost:3000](http://localhost:3000) (default credentials `admin/admin`).
 5. Prometheus is available at [http://localhost:9090](http://localhost:9090).
-6. Alertmanager can be reached at [http://localhost:9093](http://localhost:9093).
+6. Alertmanager runs on the internal `lognet` network. If you need to reach it remotely, publish port **9093** and allow it through your firewall.
 7. Logs from `/var/log` and remote hosts are collected automatically. View them in Grafana under *Explore* using the `Loki` datasource to see real-time events.
 
 ## Checking Login Attempts
@@ -46,6 +46,9 @@ If Grafana shows **"Log volume has not been configured"** or **"Traces not worki
 
 ## Network
 All services communicate on the `lognet` network defined in `docker-compose.yml`.
+Node Exporter, cAdvisor and Alertmanager are not exposed to the host by default.
+To reach them remotely, publish their ports (9100, 8080 and 9093) and open those
+ports in your firewall rules.
 
 ### Adding a New Log Source
 - Send logs via TCP or UDP port **514** to the host running syslog-ng.

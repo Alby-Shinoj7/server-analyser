@@ -78,3 +78,23 @@ An Nginx container terminates TLS and proxies requests to Grafana and Prometheus
 2. Run `sudo certbot certonly --standalone -d your.domain.com` and follow the prompts.
 3. Copy `fullchain.pem` to `certs/nginx/server.crt` and `privkey.pem` to `certs/nginx/server.key`.
 4. Place the same certificate (or another issued one) in `certs/syslog-ng/` as `server.crt` and `server.key` for TLS syslog on port **6514**.
+
+## Troubleshooting
+
+### "KeyError: 'ContainerConfig'" when running `docker-compose`
+
+This project requires the newer Docker Compose **v2** plugin. If you run the
+legacy `docker-compose` command you may encounter a stack trace ending with
+`KeyError: 'ContainerConfig'`. Use the `docker compose` command instead or
+upgrade your Docker installation so that Compose v2 is available.
+
+Steps to resolve:
+1. Ensure the `docker` CLI reports a compose subcommand:
+   ```bash
+   docker compose version
+   ```
+   If this fails, install the [Docker Compose plugin](https://docs.docker.com/compose/install/).
+2. Start the stack using Compose v2:
+   ```bash
+   docker compose up -d
+   ```

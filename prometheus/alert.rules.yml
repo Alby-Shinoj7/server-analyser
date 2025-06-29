@@ -1,0 +1,39 @@
+ groups:
+ - name: system-alerts
+   rules:
+   - alert: HighCPUUsage
+     expr: 100 - (avg by(instance)(rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 90
+     for: 2m
+     labels:
+       severity: critical
+     annotations:
+       description: 'High CPU usage detected on {{ $labels.instance }}'
+       summary: 'CPU usage > 90%'
+
+   - alert: HighMemoryUsage
+     expr: node_memory_Active_bytes / node_memory_MemTotal_bytes * 100 > 85
+     for: 2m
+     labels:
+       severity: warning
+     annotations:
+       description: 'High memory usage detected on {{ $labels.instance }}'
+       summary: 'Memory usage > 85%'
+
+   - alert: HighDiskUsage
+     expr: node_filesystem_avail_bytes{fstype!="tmpfs",fstype!="overlay"} / node_filesystem_size_bytes{fstype!="tmpfs",fstype!="overlay"} * 100 < 20
+     for: 2m
+     labels:
+       severity: warning
+     annotations:
+       description: 'Disk space low on {{ $labels.instance }} mount {{ $labels.mountpoint }}'
+       summary: 'Disk usage > 80%'
+
+   - alert: ExcessiveLoginFailures
+     expr: increase(syslog_login_failed_total[5m]) > 5
+     for: 5m
+     labels:
+       severity: warning
+     annotations:
+       description: 'Multiple failed login attempts detected.'
+       summary: 'Failed logins > 5 in 5m'
+

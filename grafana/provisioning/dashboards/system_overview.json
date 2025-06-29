@@ -1,0 +1,42 @@
+{
+  "id": null,
+  "uid": "system-overview",
+  "title": "System Overview",
+  "tags": ["system"],
+  "timezone": "browser",
+  "schemaVersion": 30,
+  "version": 1,
+  "refresh": "5s",
+  "panels": [
+    {
+      "type": "graph",
+      "title": "CPU Usage",
+      "datasource": "Prometheus",
+      "targets": [
+        {"expr": "100 - (avg by(instance)(rate(node_cpu_seconds_total{mode='idle'}[1m])) * 100)", "legendFormat": "CPU"}
+      ],
+      "gridPos": {"x": 0, "y": 0, "w": 12, "h": 8}
+    },
+    {
+      "type": "graph",
+      "title": "Memory Usage",
+      "datasource": "Prometheus",
+      "targets": [
+        {"expr": "(node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes) / node_memory_MemTotal_bytes * 100", "legendFormat": "Memory"}
+      ],
+      "gridPos": {"x": 12, "y": 0, "w": 12, "h": 8}
+    },
+    {
+      "type": "table",
+      "title": "Login Activity",
+      "datasource": "Loki",
+      "targets": [
+        {
+          "expr": "{program='sshd'} |= 'session opened'",
+          "format": "table"
+        }
+      ],
+      "gridPos": {"x": 0, "y": 8, "w": 24, "h": 8}
+    }
+  ]
+}

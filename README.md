@@ -23,7 +23,6 @@ This stack provides log aggregation, metrics monitoring and alerting using Docke
 ## Checking Login Attempts
 - Navigate to Grafana > Explore and select the `Loki` datasource.
 - Query `{program="sshd"}` to see SSH login events including failures.
-- Failed login counts trigger the `ExcessiveLoginFailures` alert rule in Prometheus.
 
 ## Adding Alert Rules
 - Edit `prometheus/alert.rules.yml` and add new rules under the `system-alerts` group.
